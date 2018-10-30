@@ -26,18 +26,45 @@ void gol_distroyGrid() {
 	gridHeight = 0;
 }
 
-int gol_countAlive() {
+static int gol_calCellIndex(int x, int y) {
+	assert(x < gridWidth && x >= 0);
+	assert(y < gridHeight && y >= 0);
+
+	return gridWidth * y + x;
+}
+
+bool gol_isAlive(int x, int y) {
+	if (x < 0 || y < 0 || x >= gridWidth || y >= gridHeight)
+		return false;
+
+	if (grid[gol_calCellIndex(x, y)] == ALIVE_CELL)
+		return true;
+	return false;
+}
+
+int gol_countAlives(int x, int y) {
 	int count = 0;
 
-	for (int i = 0; i < gridWidth * gridHeight; i++)
-		if (grid[i] != 0)
-			count++;
+	if (gol_isAlive(x-1, y-1) == true)
+		count++;
+	if (gol_isAlive(x, y-1) == true)
+		count++;
+	if (gol_isAlive(x+1, y-1) == true)
+		count++;
+	if (gol_isAlive(x-1, y) == true)
+		count++;
+	if (gol_isAlive(x+1, y) == true)
+		count++;
+	if (gol_isAlive(x-1, y+1) == true)
+		count++;
+	if (gol_isAlive(x, y+1) == true)
+		count++;
+	if (gol_isAlive(x+1, y+1) == true)
+		count++;
+
 	return count;
 }
 
-void gol_setCell(int x, int y) {
-	assert(x < gridWidth);
-	assert(y < gridHeight);
-
-	grid[gridWidth * y + x] = ALIVE_CELL;
+void gol_setAlive(int x, int y) {
+	grid[gol_calCellIndex(x, y)] = ALIVE_CELL;
 }
