@@ -168,3 +168,13 @@ TEST(testGameOfLife_8x4, rightBottomCell)
 	int result = gol_countAlives(7, 3);
 	LONGS_EQUAL(expect, result);
 }
+
+TEST(testGameOfLife_8x4, cellDeathRule)
+{
+	gol_setAlive(1, 1);
+	gol_setAlive(2, 1);
+
+	gol_nextGeneration();
+	CHECK_FALSE(gol_isAlive(1, 1));
+	CHECK_FALSE(gol_isAlive(2, 1));
+}

@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <string.h>
 #include "gameOfLife.h"
 
 static char *grid = NULL;
@@ -18,6 +19,7 @@ void gol_createGrid(int width, int height) {
 	gridWidth = width;
 	gridHeight = height;
 	grid = (char *)calloc(width*height, sizeof(char));
+	memset(grid, DIED_CELL, width*height);
 }
 
 void gol_distroyGrid() {
@@ -68,3 +70,21 @@ int gol_countAlives(int x, int y) {
 void gol_setAlive(int x, int y) {
 	grid[gol_calCellIndex(x, y)] = ALIVE_CELL;
 }
+
+void gol_setDied(int x, int y) {
+	grid[gol_calCellIndex(x, y)] = DIED_CELL;
+}
+
+void gol_nextGeneration() {
+	int aroundAliveCells = 0;
+
+	for (int j = 0; j < gridHeight; j++)
+		for (int i = 0; i < gridWidth; i++)
+			if (gol_isAlive(i, j)) {
+				aroundAliveCells = gol_countAlives(i, j);
+				if (aroundAliveCells < 2)
+					gol_setDied(i, j);
+			}
+}
+
+

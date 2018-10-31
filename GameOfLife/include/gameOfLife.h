@@ -11,10 +11,13 @@
 
 
 #define ALIVE_CELL	'*'
+#define DIED_CELL	'.'
 
 void gol_createGrid(int width, int height);
 void gol_distroyGrid();
 int gol_countAlives(int x, int y);
 void gol_setAlive(int x, int y);
+bool gol_isAlive(int x, int y);
+void gol_nextGeneration();
 
 #endif /* GAMEOFLIFE_H_ */
